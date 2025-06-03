@@ -27,19 +27,25 @@ public class LSP {
     public static void decodeMessage(InputStream client) throws IOException {
         StdinMessageDecoder stdinMessageDecoder = new StdinMessageDecoder();
 
+        LOGGER.log(Level.INFO, "starting to read from stdin");
+
         byte[] messageBytes;
         while ((messageBytes = stdinMessageDecoder.readNextMessage(client)) != null) {
             handleRequest(messageBytes);
         }
+
+        LOGGER.log(Level.INFO, "finished reading from stdin");
     }
 
     public static void handleRequest(byte[] request) {
        //TODO do something with the request we get, for now we just log it
-       LOGGER.log(Level.INFO, "Request: {0}", Arrays.toString(request));
+        LOGGER.log(Level.FINEST, "received request");
+        LOGGER.log(Level.INFO, "Request: {0}", Arrays.toString(request));
     }
 
     public static void run() throws IOException {
         decodeMessage(System.in);
+        LOGGER.log(Level.FINEST, "closing server");
     }
 
     public static class StdinMessageDecoder {
@@ -48,6 +54,7 @@ public class LSP {
         private final byte[] buffer = new byte[4096];
 
         public byte[] readNextMessage(InputStream in) throws IOException {
+            LOGGER.log(Level.FINEST, "reading next message");
             while (true) {
                 int bytesRead = in.read(buffer);
                 if (bytesRead == -1 && byteArrayOutputStream.size() == 0) { return null; } // EOF
@@ -85,6 +92,7 @@ public class LSP {
                     return i + 4;
                 }
             }
+            LOGGER.log(Level.FINEST, "control sequence not found");
             return -1;
         }
 
@@ -94,6 +102,7 @@ public class LSP {
                     return Integer.parseInt(line.substring("Content-Length: ".length()).trim());
                 }
             }
+            LOGGER.log(Level.SEVERE, "content length not found when in message containg \\r\\n\\r\\n");
             throw new IllegalArgumentException("Missing Content-Length header");
         }
 
