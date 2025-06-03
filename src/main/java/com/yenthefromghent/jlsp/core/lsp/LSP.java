@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class LSP {
 
     private static final ObjectMapper jsonObjectMapper = new ObjectMapper();
-    private static final Logger LOGGER = Logger.getLogger("main");
+    static final Logger LOGGER = Logger.getLogger("main");
 
     public static <T> String encodeMessage (T message) throws JsonProcessingException {
         var messageText = jsonObjectMapper.writeValueAsString(message);
