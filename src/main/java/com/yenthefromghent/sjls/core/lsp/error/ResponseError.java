@@ -1,7 +1,5 @@
 package com.yenthefromghent.sjls.core.lsp.error;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 public class ResponseError {
 
     /**
@@ -9,6 +7,17 @@ public class ResponseError {
      */
     public Integer id;
     public String message;
-    public JsonNode LSPAny; //can be null
+    public AbstractError LSPAny; //can be null
+
+    public ResponseError(Integer id, String message) {
+        this.id = id;
+        this.message = message;
+    }
+
+    public ResponseError(Integer id, String message, AbstractError LSPAny) {
+        this.id = id;
+        this.message = message;
+        this.LSPAny = LSPAny;
+    }
 
 }

@@ -9,10 +9,11 @@ public class Launch {
 
     public static void main(String[] args) {
         //initialize loggin
-        LoggingSetup.setupLogging("/tmp/jsls_log.xml", Level.FINEST);
+        LoggingSetup.setupLogging("/tmp/jsls_log.xml", Level.INFO);
 
-        //start reading from stdin
+        //start server
         try {
+            LSP.start();
             LSP.run();
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -1,4 +1,0 @@
-Content-Length: 189
-
-{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"clientInfo":{"name":"ConsoleTestClient","version":"1.0"},"rootUri":"file:///your/project/path","capabilities":{},"trace":"off"}}
-

@@ -5,8 +5,8 @@ import com.yenthefromghent.sjls.core.lsp.RPCRequestHandler;
 
 public interface RPCInstance {
 
-    void succes(RPCRequestHandler handler);
+    void succes(int id);
 
-    void error(RPCRequestHandler handler);
+    void error(int id);
 
 }

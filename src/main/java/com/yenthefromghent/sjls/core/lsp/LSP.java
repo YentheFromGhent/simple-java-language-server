@@ -2,8 +2,10 @@ package com.yenthefromghent.sjls.core.lsp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yenthefromghent.sjls.core.lsp.message.Message;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,8 +45,8 @@ public class LSP {
     private static final RPCRequestHandler RPC_REQUEST_HANDLER = new RPCRequestHandler();
 
     public static void handleRequest(byte[] request) {
-        LOGGER.log(Level.FINEST, "received request");
-        RPC_REQUEST_HANDLER.handleRequest(request);
+        LOGGER.log(Level.FINEST, "message received for handling");
+        RPC_REQUEST_HANDLER.handleRPCCall(request);
     }
 
     public static void run() throws IOException {
@@ -52,13 +54,23 @@ public class LSP {
         LOGGER.log(Level.FINEST, "closing server");
     }
 
-    private static final PrintStream out = new PrintStream(System.out, true);
+    public static void start() throws NoSuchMethodException {
+       RPCMethodRegistery.registerRPCMethodsToRegistery();
+    }
 
-    public static <T> void send(T responseObject) {
-        LOGGER.log(Level.FINEST, "sending message");
-        String responseMessage = encodeMessage(responseObject);
+    private static final BufferedOutputStream out = new BufferedOutputStream(System.out);
 
-        out.println(responseMessage);
+    public static <T> void send(T reply) {
+        String responseMessage = encodeMessage(reply);
+        LOGGER.log(Level.FINEST, "sending message: " + responseMessage);
+
+        try {
+            assert responseMessage != null;
+            out.write(responseMessage.getBytes(StandardCharsets.UTF_8));
+            out.flush();
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "sending message failed with error: ", ex);
+        }
     }
 
     public static class StdinMessageDecoder {
@@ -70,7 +82,7 @@ public class LSP {
             LOGGER.log(Level.FINEST, "reading next message");
             while (true) {
                 int bytesRead = in.read(buffer);
-                if (bytesRead == -1 && byteArrayOutputStream.size() == 0) { return null; } // EOF
+                if (bytesRead == -1 && byteArrayOutputStream.size() == 0) { return null; } //EOF
 
                 if (bytesRead > 0 ) {
                     byteArrayOutputStream.write(buffer, 0, bytesRead);

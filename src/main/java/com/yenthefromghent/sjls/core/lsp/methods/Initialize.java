@@ -1,41 +1,52 @@
 package com.yenthefromghent.sjls.core.lsp.methods;
 
+import com.yenthefromghent.sjls.core.lsp.LSP;
 import com.yenthefromghent.sjls.core.lsp.RPCMethod;
 import com.yenthefromghent.sjls.core.lsp.RPCMethodRegistery;
-import com.yenthefromghent.sjls.core.lsp.RPCRequestHandler;
+import com.yenthefromghent.sjls.core.lsp.error.ErrorCode;
+import com.yenthefromghent.sjls.core.lsp.error.ResponseError;
+import com.yenthefromghent.sjls.core.lsp.message.ResponseMessage;
 import com.yenthefromghent.sjls.core.lsp.types.*;
 
-public class Initialize implements Registerable, RPCInstance {
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Initialize implements RPCInstance, Registerable {
+
+    private final Logger LOGGER = Logger.getLogger("main");
 
     @RPCMethod
-    public void initialize(Object[] params, RPCRequestHandler handler) {
-        if (params.length != 0) {
-            succes(handler);
+    public void initialize(Object[] params, int id) {
+        LOGGER.log(Level.INFO, "Invoking initialize from Initialize");
+        if (params.length > 0) {
+            succes(id);
         } else {
-            error(handler);
+            error(id);
         }
     }
 
-    @Registered
     @Override
     public void register() throws NoSuchMethodException {
-        RPCMethodRegistery.registerMethod(this.getClass().getMethod(this.getClass().getSimpleName()), this.getClass());
+        RPCMethodRegistery.registerMethod(
+                this.getClass().getMethod("initialize", Object[].class, int.class), this
+        );
     }
 
     @Override
-    public void succes(RPCRequestHandler handler) {
-        InitializeResult succesResponse = new InitializeResult();
-        succesResponse.capabilities = new Capabilities();
-        succesResponse.serverInfo = new ServerInfo();
-        handler.reply(succesResponse);
+    public void succes(int id) {
+        LOGGER.finest("Invoking succes");
+        LSP.send(
+                new ResponseMessage(id, new InitializeResult(new Capabilities(), new ServerInfo()))
+        );
     }
 
 
     @Override
-    public void error(RPCRequestHandler handler) {
-        InitializeError errorReponse = new InitializeError();
-        errorReponse.retry = false;
-        handler.reply(errorReponse);
+    public void error(int id) {
+        LOGGER.warning("Invoking error");
+        LSP.send(new ResponseMessage(id, new ResponseError(
+                ErrorCode.UNKNOWERROR, "could not invoke intialize", new InitializeError(false)))
+        );
     }
 
 }

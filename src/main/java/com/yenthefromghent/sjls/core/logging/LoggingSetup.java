@@ -18,7 +18,7 @@ public class LoggingSetup {
             FileHandler fileHandler = new FileHandler(filepath);
             LOGGER.addHandler(fileHandler);
             LOGGER.setLevel(level);
-            LOGGER.log(Level.FINEST, "Logger intialized");
+            LOGGER.log(Level.INFO, "Logger intialized");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

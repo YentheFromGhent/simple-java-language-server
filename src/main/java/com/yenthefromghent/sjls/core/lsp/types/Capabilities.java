@@ -1,65 +1,32 @@
 package com.yenthefromghent.sjls.core.lsp.types;
 
 public class Capabilities {
-
-    /**
-     * Class that defines all the capabilities the lsp supports
-     */
-
-    public Boolean supportsConfigurationDoneRequest;
-
-    public Boolean supportsFunctionBreakpoints;
-
-    public Boolean supportsConditionalBreakpoints;
-
-    public CompletionOptions supportsCompletionProviver;
-
-    public Boolean supportsHitConditionalBreakpoints;
-
-    public Boolean supportsEvaluateForHovers;
-
-    public Boolean supportsStepBack;
-
-    public Boolean supportsSetVariable;
-
-    public Boolean supportsRestartFrame;
-
-    public Boolean supportsGotoTargetsRequest;
-
-    public Boolean supportsStepInTargetsRequest;
-
-    public Boolean supportsCompletionsRequest;
-
-    public Boolean supportsModulesRequest;
-
-    public String[] supportedChecksumAlgorithms;
-
-    public Boolean supportsRestartRequest;
-
-    public Boolean supportsExceptionOptions;
-
-    public Boolean supportsValueFormattingOptions;
-
-    public Boolean supportsExceptionInfoRequest;
-
-    public Boolean supportTerminateDebuggee;
-
-    public Boolean supportsDelayedStackTraceLoading;
-
-    public Boolean supportsLoadedSourcesRequest;
-
-    public Boolean supportsLogPoints;
-
-    public Boolean supportsTerminateThreadsRequest;
-
-    public Boolean supportsSetExpression;
-
-    public Boolean supportsTerminateRequest;
-
-    public Boolean supportsDataBreakpoints;
-
-    public Boolean supportsReadMemoryRequest;
-
-    public Boolean supportsDisassembleRequest;
-
+    public Boolean supportsConfigurationDoneRequest = false;
+    public Boolean supportsFunctionBreakpoints = false;
+    public Boolean supportsConditionalBreakpoints = false;
+    public CompletionOptions supportsCompletionProviver = null;
+    public Boolean supportsHitConditionalBreakpoints = false;
+    public Boolean supportsEvaluateForHovers = false;
+    public Boolean supportsStepBack = false;
+    public Boolean supportsSetVariable = false;
+    public Boolean supportsRestartFrame = false;
+    public Boolean supportsGotoTargetsRequest = false;
+    public Boolean supportsStepInTargetsRequest = false;
+    public Boolean supportsCompletionsRequest = false;
+    public Boolean supportsModulesRequest = false;
+    public String[] supportedChecksumAlgorithms = null;
+    public Boolean supportsRestartRequest = false;
+    public Boolean supportsExceptionOptions = false;
+    public Boolean supportsValueFormattingOptions = false;
+    public Boolean supportsExceptionInfoRequest = false;
+    public Boolean supportTerminateDebuggee = false;
+    public Boolean supportsDelayedStackTraceLoading = false;
+    public Boolean supportsLoadedSourcesRequest = false;
+    public Boolean supportsLogPoints = false;
+    public Boolean supportsTerminateThreadsRequest = false;
+    public Boolean supportsSetExpression = false;
+    public Boolean supportsTerminateRequest = false;
+    public Boolean supportsDataBreakpoints = false;
+    public Boolean supportsReadMemoryRequest = false;
+    public Boolean supportsDisassembleRequest = false;
 }
