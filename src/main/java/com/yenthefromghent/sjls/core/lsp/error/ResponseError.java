@@ -1,4 +1,4 @@
-package com.yenthefromghent.jlsp.core.lsp.error;
+package com.yenthefromghent.sjls.core.lsp.error;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

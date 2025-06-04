@@ -1,4 +1,4 @@
-package com.yenthefromghent.jlsp.core.lsp.message;
+package com.yenthefromghent.sjls.core.lsp.message;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

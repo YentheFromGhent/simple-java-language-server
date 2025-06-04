@@ -1,4 +1,4 @@
-package com.yenthefromghent.jlsp.core.logging;
+package com.yenthefromghent.sjls.core.logging;
 
 import java.util.logging.FileHandler;
 import java.util.logging.Level;

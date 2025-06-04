@@ -1,11 +1,9 @@
-package com.yenthefromghent.jlsp.core.lsp;
+package com.yenthefromghent.sjls.core.lsp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,9 +17,14 @@ public class LSP {
     private static final ObjectMapper jsonObjectMapper = new ObjectMapper();
     static final Logger LOGGER = Logger.getLogger("main");
 
-    public static <T> String encodeMessage (T message) throws JsonProcessingException {
-        var messageText = jsonObjectMapper.writeValueAsString(message);
-        return String.format("Content-Length: %d\r\n\r\n%s", messageText.getBytes().length, messageText);
+    public static <T> String encodeMessage (T message) {
+        try {
+            var messageText = jsonObjectMapper.writeValueAsString(message);
+            return String.format("Content-Length: %d\r\n\r\n%s", messageText.getBytes().length, messageText);
+        } catch (JsonProcessingException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage(), ex);
+            return null;
+        }
     }
 
     public static void decodeMessage(InputStream client) throws IOException {
@@ -46,6 +49,15 @@ public class LSP {
     public static void run() throws IOException {
         decodeMessage(System.in);
         LOGGER.log(Level.FINEST, "closing server");
+    }
+
+    private static final PrintStream out = new PrintStream(System.out, true);
+
+    public static <T> void send(T responseObject) {
+        LOGGER.log(Level.FINEST, "sending message");
+        String responseMessage = encodeMessage(responseObject);
+
+        out.println(responseMessage);
     }
 
     public static class StdinMessageDecoder {

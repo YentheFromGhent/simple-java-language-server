@@ -1,23 +1,24 @@
-package com.yenthefromghent.jlsp.core.lsp;
+package com.yenthefromghent.sjls.core.lsp;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 public class MethodHandler {
 
-    private final Logger LOGGER = Logger.getLogger("main");
+    private static final Logger LOGGER = Logger.getLogger("main");
 
-    private final Map<String, MethodBinding> methodsMap = new HashMap<>();
+    private static final Map<String, MethodBinding> methodsMap = new HashMap<>();
 
     /**
-     * function to register a rpc method into the methodsMap
-     * so that it can later be called with handleMessage()
+     * function to register a rpc method into the methodsMap so that it can later be called with handleMessage()
      * @param method the method you want to register
-     * @param instance the class object of that method
+     * @param instance the Object of that method
      */
-    public void registerMethod(Method method, Object instance) {
+    public static void registerMethod(Method method, Object instance) {
         if (methodsMap.containsKey(method.getName())) {
             LOGGER.severe("Method " + method.getName() + " is already registered!");
             throw new IllegalArgumentException("Method " + method.getName() + " is already registered!");
@@ -35,7 +36,7 @@ public class MethodHandler {
      * function to remove a method from the methodMap
      * @param methodName name of the method you want to remove
      */
-    public void removeMethod(String methodName) {
+    public static void removeMethod(String methodName) {
         if (!methodsMap.containsKey(methodName)) {
             LOGGER.severe("Method " + methodName + " is not registered!");
             throw new IllegalArgumentException("Method " + methodName + " is not registered!");
@@ -43,7 +44,14 @@ public class MethodHandler {
         methodsMap.remove(methodName);
     }
 
+    public static List<MethodBinding> getEntries() {
+        return new ArrayList<>(methodsMap.values());
+    }
 
-
+    /**
+     * record class that holds the method and its instance.
+     * @param method
+     * @param instance
+     */
     public record MethodBinding(Method method, Object instance) {}
 }

@@ -1,4 +1,4 @@
-package com.yenthefromghent.jlsp.core.lsp.types;
+package com.yenthefromghent.sjls.core.lsp.types;
 
 import java.net.URI;
 

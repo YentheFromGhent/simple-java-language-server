@@ -1,4 +1,4 @@
-package com.yenthefromghent.jlsp.core.lsp.types;
+package com.yenthefromghent.sjls.core.lsp.types;
 
 public class Capabilities {
 
@@ -11,6 +11,8 @@ public class Capabilities {
     public Boolean supportsFunctionBreakpoints;
 
     public Boolean supportsConditionalBreakpoints;
+
+    public CompletionOptions supportsCompletionProviver;
 
     public Boolean supportsHitConditionalBreakpoints;
 

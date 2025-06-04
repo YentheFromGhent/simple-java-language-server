@@ -1,6 +1,6 @@
 package com.yenthefromghent.jsls;
 
-import com.yenthefromghent.jlsp.core.lsp.LSP;
+import com.yenthefromghent.sjls.core.lsp.LSP;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -9,6 +9,9 @@ import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Small test class to test features and debug
+ */
 public class LSPTest {
 
     @Test

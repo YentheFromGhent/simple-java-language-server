@@ -1,6 +1,6 @@
-package com.yenthefromghent.jlsp;
+package com.yenthefromghent.sjls;
 
-import com.yenthefromghent.jlsp.core.logging.LoggingSetup;
+import com.yenthefromghent.sjls.core.logging.LoggingSetup;
 
 import java.util.logging.Level;
 

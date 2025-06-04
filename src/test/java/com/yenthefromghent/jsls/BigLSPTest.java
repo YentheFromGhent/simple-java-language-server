@@ -1,6 +1,6 @@
 package com.yenthefromghent.jsls;
 
-import com.yenthefromghent.jlsp.core.lsp.LSP;
+import com.yenthefromghent.sjls.core.lsp.LSP;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -10,6 +10,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Big test class that should be run before commting to main
+ */
 public class BigLSPTest {
 
     record MockMessage(String json) {}

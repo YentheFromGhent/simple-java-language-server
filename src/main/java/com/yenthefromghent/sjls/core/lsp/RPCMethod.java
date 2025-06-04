@@ -1,4 +1,4 @@
-package com.yenthefromghent.jlsp.core.lsp;
+package com.yenthefromghent.sjls.core.lsp;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
