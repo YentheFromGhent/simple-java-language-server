@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -94,4 +95,20 @@ public class LSPTest {
             this.id = id;
         }
     }
+
+    @Test
+    public void testReadNextMessage() throws Exception {
+        String json = "{\"jsonrpc\":\"2.0\",\"method\":\"initialize\",\"params\":{}}";
+        String lspMsg = String.format("Content-Length: %d\r\n\r\n%s", json.getBytes(StandardCharsets.UTF_8).length, json);
+
+        ByteArrayInputStream input = new ByteArrayInputStream(lspMsg.getBytes(StandardCharsets.UTF_8));
+
+        LSP.StdinMessageDecoder decoder = new LSP.StdinMessageDecoder();
+        byte[] messageBytes = decoder.readNextMessage(input);
+
+        assertNotNull(messageBytes);
+        String message = new String(messageBytes, StandardCharsets.UTF_8);
+        assertTrue(message.contains("\"method\":\"initialize\""));
+    }
+
 }

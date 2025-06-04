@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class MethodHandler {
+public class RPCMethodRegistery {
 
     private static final Logger LOGGER = Logger.getLogger("main");
 
@@ -46,6 +46,10 @@ public class MethodHandler {
 
     public static List<MethodBinding> getEntries() {
         return new ArrayList<>(methodsMap.values());
+    }
+
+    public static void registerRPCMethods() {
+        //TODO register all the methods that rpc can call
     }
 
     /**

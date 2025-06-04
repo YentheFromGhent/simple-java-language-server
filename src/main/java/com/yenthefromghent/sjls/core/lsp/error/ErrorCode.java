@@ -1,18 +1,12 @@
 package com.yenthefromghent.sjls.core.lsp.error;
 
-import java.util.HashMap;
-import java.util.Map;
+public class ErrorCode {
 
-public class ErrorCodes {
+        private static final int PARSEERROR = -32700,
+                INVALIDREQUEST = -32600,
+                METHODNOTFOUND = -32601,
+                INVALIDPARAMS = -32602,
+                INTERNALERROR = -32603,
 
-    public static Map<String, Integer> errorCodes = new HashMap<>();
-
-    static {
-        errorCodes.put("ParseError", -32700);
-        errorCodes.put("InvalidRequest", -32600);
-        errorCodes.put("MethodNotFound", -32601);
-        errorCodes.put("InvalidParams", -32602);
-        errorCodes.put("InternalError", -32603);
-    }
-
+                UNKNOWERROR = 32001;
 }

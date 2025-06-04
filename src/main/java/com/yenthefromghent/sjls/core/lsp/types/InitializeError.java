@@ -1,6 +1,6 @@
 package com.yenthefromghent.sjls.core.lsp.types;
 
-public class InitializationError {
+public class InitializeError {
 
     /**
      * type that defines the intitialization error.

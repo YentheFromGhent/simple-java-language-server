@@ -40,10 +40,11 @@ public class LSP {
         LOGGER.log(Level.INFO, "finished reading from stdin");
     }
 
+    private static final RPCRequestHandler RPC_REQUEST_HANDLER = new RPCRequestHandler();
+
     public static void handleRequest(byte[] request) {
-       //TODO do something with the request we get, for now we just log it
         LOGGER.log(Level.FINEST, "received request");
-        LOGGER.log(Level.INFO, "Request: {0}", Arrays.toString(request));
+        RPC_REQUEST_HANDLER.handleRequest(request);
     }
 
     public static void run() throws IOException {

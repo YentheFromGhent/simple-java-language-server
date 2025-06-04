@@ -1,6 +1,6 @@
 package com.yenthefromghent.sjls.core.lsp.types;
 
-public class IntiliazeResult {
+public class InitializeResult {
 
     /**
      * defines the initialization results
