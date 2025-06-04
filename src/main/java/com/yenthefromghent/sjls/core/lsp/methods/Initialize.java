@@ -1,24 +1,26 @@
 package com.yenthefromghent.sjls.core.lsp.methods;
 
-import com.yenthefromghent.sjls.core.lsp.LSP;
-import com.yenthefromghent.sjls.core.lsp.RPCMethod;
-import com.yenthefromghent.sjls.core.lsp.RPCMethodRegistery;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yenthefromghent.sjls.core.lsp.*;
 import com.yenthefromghent.sjls.core.lsp.error.ErrorCode;
 import com.yenthefromghent.sjls.core.lsp.error.ResponseError;
 import com.yenthefromghent.sjls.core.lsp.message.ResponseMessage;
 import com.yenthefromghent.sjls.core.lsp.types.*;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+public class Initialize extends RPCClass implements RPCInstance, Registerable {
 
-public class Initialize implements RPCInstance, Registerable {
-
-    private final Logger LOGGER = Logger.getLogger("main");
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @RPCMethod
-    public void initialize(Object[] params, int id) {
-        LOGGER.log(Level.INFO, "Invoking initialize from Initialize");
-        if (params.length > 0) {
+    public void initialize(JsonNode message) {
+        LOGGER.finest("intialize method called");
+        int id = message.get("id").asInt();
+
+        LOGGER.finest("Trying to parse parameters from Initialize into InitialiazeParams");
+        InitializeParams params = deserialize(message.get("params"), InitializeParams.class);
+
+        if (params != null) {
             succes(id);
         } else {
             error(id);
@@ -28,13 +30,13 @@ public class Initialize implements RPCInstance, Registerable {
     @Override
     public void register() throws NoSuchMethodException {
         RPCMethodRegistery.registerMethod(
-                this.getClass().getMethod("initialize", Object[].class, int.class), this
+                this.getClass().getMethod("initialize", JsonNode.class), this
         );
     }
 
     @Override
     public void succes(int id) {
-        LOGGER.finest("Invoking succes");
+        LOGGER.finest("Invoking initialize succes");
         LSP.send(
                 new ResponseMessage(id, new InitializeResult(new Capabilities(), new ServerInfo()))
         );
@@ -43,7 +45,7 @@ public class Initialize implements RPCInstance, Registerable {
 
     @Override
     public void error(int id) {
-        LOGGER.warning("Invoking error");
+        LOGGER.warning("Error parameters were null");
         LSP.send(new ResponseMessage(id, new ResponseError(
                 ErrorCode.UNKNOWERROR, "could not invoke intialize", new InitializeError(false)))
         );

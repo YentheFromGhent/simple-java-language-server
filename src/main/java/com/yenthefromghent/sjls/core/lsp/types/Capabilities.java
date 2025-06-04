@@ -1,5 +1,8 @@
 package com.yenthefromghent.sjls.core.lsp.types;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Capabilities {
     public Boolean supportsConfigurationDoneRequest = false;
     public Boolean supportsFunctionBreakpoints = false;

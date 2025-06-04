@@ -58,6 +58,14 @@ public class LSP {
        RPCMethodRegistery.registerRPCMethodsToRegistery();
     }
 
+    public static void stop() {
+        //We received the shutdown call before, so we exit the server with exit code 0
+        if (RPCRequestHandler.isReceivedShutdownRequest()) {
+            System.exit(0);
+        }
+        System.exit(1);
+    }
+
     private static final BufferedOutputStream out = new BufferedOutputStream(System.out);
 
     public static <T> void send(T reply) {

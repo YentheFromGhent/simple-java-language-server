@@ -9,5 +9,6 @@ public class ErrorCode {
                 INTERNALERROR = -32603,
 
                 UNKNOWERROR = -32001,
-                REQUESTBEFOREINI = -32002;
+                REQUESTBEFOREINI = -32002,
+                SHUTDOWNALREADYRECEIVED = 32003;
 }

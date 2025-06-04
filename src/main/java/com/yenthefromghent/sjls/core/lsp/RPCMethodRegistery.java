@@ -1,6 +1,6 @@
 package com.yenthefromghent.sjls.core.lsp;
 
-import com.yenthefromghent.sjls.core.lsp.methods.RPCInstance;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.yenthefromghent.sjls.core.lsp.methods.Registerable;
 
 import java.lang.reflect.Method;
@@ -50,7 +50,7 @@ public class RPCMethodRegistery {
         return new ArrayList<>(methodsMap.values());
     }
 
-    public static void invokeMethod(String methodName, Object... params) {
+    public static void invokeMethod(String methodName, JsonNode message) {
         if (!methodsMap.containsKey(methodName)) {
             LOGGER.severe("Method " + methodName + " is not registered!");
             return;
@@ -59,25 +59,8 @@ public class RPCMethodRegistery {
         MethodBinding methodBinding = methodsMap.get(methodName);
 
         try {
-            LOGGER.finest("Invoking method " + methodName + " with parameters " + Arrays.toString(params));
-            methodBinding.method().invoke(methodBinding.instance, new Object[] { params });
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error invoking method: " + methodName + " with error: " + e);
-        }
-    }
-
-
-    public static void invokeMethodWithId(String methodName, int id, Object... params) {
-        if (!methodsMap.containsKey(methodName)) {
-            LOGGER.warning("Method " + methodName + " is not registered!");
-            return;
-        }
-
-        MethodBinding methodBinding = methodsMap.get(methodName);
-
-        try {
-            LOGGER.finest("Invoking method " + methodName + " with parameters " + Arrays.toString(params));
-            methodBinding.method().invoke(methodBinding.instance, new Object[] { params }, id);
+            LOGGER.finest("Invoking method " + methodName);
+            methodBinding.method().invoke(methodBinding.instance, message);
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error invoking method: " + methodName + " with error: " + e);
         }

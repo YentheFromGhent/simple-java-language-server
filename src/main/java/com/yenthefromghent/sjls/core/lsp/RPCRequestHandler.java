@@ -1,7 +1,6 @@
 package com.yenthefromghent.sjls.core.lsp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yenthefromghent.sjls.core.lsp.error.ErrorCode;
@@ -9,7 +8,6 @@ import com.yenthefromghent.sjls.core.lsp.error.ResponseError;
 import com.yenthefromghent.sjls.core.lsp.message.ResponseMessage;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +17,7 @@ public class RPCRequestHandler {
     public static final ObjectMapper MAPPER = new ObjectMapper();
 
     private static boolean isInitialized = false;
+    private static boolean receivedShutdownRequest = false;
 
     /**
      * function that takes a RPC call, and will direct it to the correct handler,
@@ -44,7 +43,7 @@ public class RPCRequestHandler {
         }
 
         LOGGER.finest("Request received");
-        handleRequest(RPCObject, id.asInt());
+        handleRequest(RPCObject);
     }
 
     /**
@@ -53,21 +52,22 @@ public class RPCRequestHandler {
      */
     public void handleNotification(JsonNode notificationObject) {
         //If we have not yet intialized, we ignore notifications
-        String methodName = notificationObject.get("method").asText();
+        String methodName = notificationObject.get("method").asText().trim();
 
-        if (!isInitialized && !methodName.equals("intitialized")) {
+        if (!isInitialized && !methodName.equals("initialized")) {
+            LOGGER.finest("Was not initialized, but was: " + methodName);
             return;
         }
 
         LOGGER.finest("Invoking notification method: " + methodName);
-        RPCMethodRegistery.invokeMethod(methodName);
+        RPCMethodRegistery.invokeMethod(methodName, notificationObject);
     }
 
     /**
      * function that handles request messages
      * @param requestObject the json message object
      */
-    public void handleRequest(JsonNode requestObject, int id) {
+    public void handleRequest(JsonNode requestObject) {
         String methodName = requestObject.get("method").asText();
         if (!isInitialized && !methodName.equals("initialize")) {
             LSP.send(new ResponseMessage(
@@ -75,12 +75,8 @@ public class RPCRequestHandler {
             ));
         }
 
-        LOGGER.finest("Trying to parse params");
-        JsonNode paramsNode = requestObject.get("params");
-        //TODO parse parameters given with request
-
         try {
-            RPCMethodRegistery.invokeMethodWithId(methodName, id,"wow", "wow");
+            RPCMethodRegistery.invokeMethod(methodName, requestObject);
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "RPC method " + methodName + " threw an exception: ", e);
         }
@@ -104,6 +100,14 @@ public class RPCRequestHandler {
 
     public static void setIsInitialized(boolean isInitialized) {
         RPCRequestHandler.isInitialized = isInitialized;
+    }
+
+    public static void setReceivedShutdownRequest(boolean receivedShutdownRequest) {
+        RPCRequestHandler.receivedShutdownRequest = receivedShutdownRequest;
+    }
+
+    public static boolean isReceivedShutdownRequest() {
+        return RPCRequestHandler.receivedShutdownRequest;
     }
 
 }

@@ -1,24 +1,24 @@
 package com.yenthefromghent.sjls.core.lsp.methods;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.yenthefromghent.sjls.core.lsp.RPCClass;
 import com.yenthefromghent.sjls.core.lsp.RPCMethod;
 import com.yenthefromghent.sjls.core.lsp.RPCMethodRegistery;
 import com.yenthefromghent.sjls.core.lsp.RPCRequestHandler;
 
-import java.util.logging.Logger;
 
-public class Initialized implements Registerable {
-
-    private static final Logger LOGGER = Logger.getLogger(Initialized.class.getName());
+public class Initialized extends RPCClass implements Registerable {
 
     @RPCMethod
-    public void intialized() {
+    public void initialized(JsonNode json) {
+        LOGGER.finest("intialized method called");
         LOGGER.info("Initialized");
         RPCRequestHandler.setIsInitialized(true);
     }
 
     @Override
     public void register() throws NoSuchMethodException {
-        RPCMethodRegistery.registerMethod(this.getClass().getMethod("intialized"), this);
+        RPCMethodRegistery.registerMethod(this.getClass().getMethod("initialized", JsonNode.class), this);
     }
 
 }
