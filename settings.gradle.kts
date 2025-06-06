@@ -1,1 +1,1 @@
-rootProject.name = "simple-java-language-server"
+rootProject.name = "small-language-server"
