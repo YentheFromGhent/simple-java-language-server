@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "com.yenthefromghent"
@@ -18,4 +19,20 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.jar {
+    manifest {
+        attributes(
+            "Main-Class" to "com.yenthefromghent.sjls.Launch",
+        )
+    }
+}
+
+tasks.shadowJar {
+    archiveBaseName.set("js_ls")
+    archiveVersion.set("1.0.0")
+    manifest {
+        attributes(mapOf("Main-Class" to "com.yenthefromghent.sjls.Launch"))
+    }
 }

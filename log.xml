@@ -8,7 +8,7 @@
   <sequence>0</sequence>
   <logger>main</logger>
   <level>INFO</level>
-  <class>com.yenthefromghent.sls.debug.LogOptions</class>
+  <class>com.yenthefromghent.sjls.debug.LogOptions</class>
   <method>setLogOptions</method>
   <thread>3</thread>
   <message>Logger intialized</message>
