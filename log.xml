@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2025-06-05T22:06:33.629795474Z</date>
+  <millis>1749161193629</millis>
+  <nanos>795474</nanos>
+  <sequence>0</sequence>
+  <logger>main</logger>
+  <level>INFO</level>
+  <class>com.yenthefromghent.sls.debug.LogOptions</class>
+  <method>setLogOptions</method>
+  <thread>3</thread>
+  <message>Logger intialized</message>
+</record>
+</log>
