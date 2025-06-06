@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /** simple class that parses the command line options **/
-public class CommandLineOptionsParser {
+public class CommandlineOptionsParser {
 
     private static final Logger LOGGER = Logger.getLogger("main");
 

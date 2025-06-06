@@ -1,6 +1,6 @@
 package com.yenthefromghent.sjls;
 
-import com.yenthefromghent.sjls.core.cli.CommandLineOptionsParser;
+import com.yenthefromghent.sjls.core.cli.CommandlineOptionsParser;
 import com.yenthefromghent.sjls.core.cli.CommandLineParams;
 import com.yenthefromghent.sjls.core.lsp.Lsp;
 import com.yenthefromghent.sjls.debug.LogOptions;
@@ -14,7 +14,7 @@ public class Main {
     }
 
     public static void start(String[] args) {
-        CommandLineParams params = CommandLineOptionsParser.parseCommandLineOptions(args);
+        CommandLineParams params = CommandlineOptionsParser.parseCommandLineOptions(args);
         LogOptions.setLogOptions(params);
         LSP.run();
     }
