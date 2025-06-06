@@ -1,6 +1,6 @@
 package com.yenthefromghent.sjls.core.lsp;
 
-import com.yenthefromghent.sjls.debug.exception.BlockedQueueOfferTimeOut;
+import com.yenthefromghent.sjls.extra.exception.BlockedQueueOfferTimeOut;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -17,6 +17,7 @@ public class RpcRequestStorer {
         try {
             boolean succes =  rpcRequests.offer(rpcRequest, 200, TimeUnit.MILLISECONDS);
             if (!succes) {
+                LOGGER.warning("RPC request timed out");
                 throw new BlockedQueueOfferTimeOut("blocked queue offering timeout exception");
             }
         } catch (InterruptedException e) {

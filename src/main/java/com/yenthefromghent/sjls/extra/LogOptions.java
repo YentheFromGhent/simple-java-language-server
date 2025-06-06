@@ -1,4 +1,4 @@
-package com.yenthefromghent.sjls.debug;
+package com.yenthefromghent.sjls.extra;
 
 import com.yenthefromghent.sjls.core.cli.CommandLineParams;
 

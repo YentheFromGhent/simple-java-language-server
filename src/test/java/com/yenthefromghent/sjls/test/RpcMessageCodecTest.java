@@ -2,8 +2,8 @@ package com.yenthefromghent.sjls.test;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.yenthefromghent.sjls.core.codec.MessageCodec;
-import com.yenthefromghent.sjls.core.codec.RPCMessageCodec;
+import com.yenthefromghent.sjls.core.util.MessageCodec;
+import com.yenthefromghent.sjls.core.util.RPCMessageCodec;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,20 +1,25 @@
 package com.yenthefromghent.sjls.core.lsp;
 
+import com.yenthefromghent.sjls.core.lsp.methods.Exit;
 import com.yenthefromghent.sjls.core.lsp.methods.Initialize;
 import com.yenthefromghent.sjls.core.lsp.methods.Initialized;
 import com.yenthefromghent.sjls.core.lsp.methods.RpcMethod;
+import com.yenthefromghent.sjls.core.lsp.methods.Shutdown;
+import com.yenthefromghent.sjls.core.state.StatesRegistery;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class RpcMethodRegistery {
 
-    private static final Map<String, RpcMethod> rpcMethods = new HashMap<>();
+    private final Map<String, RpcMethod> rpcMethods = new HashMap<>();
 
     //All the methods we support in the lsp go here for now.
-    static {
-        rpcMethods.put("initialize", Initialize::new);
-        rpcMethods.put("intialized", Initialized::new);
+    public RpcMethodRegistery(StatesRegistery statesRegistery) {
+        rpcMethods.put("initialize", new Initialize());
+        rpcMethods.put("intialized", new Initialized());
+        rpcMethods.put("exit", new Exit());
+        rpcMethods.put("shutdown", new Shutdown(statesRegistery));
     }
 
     public RpcMethod getMethod(String methodName) {

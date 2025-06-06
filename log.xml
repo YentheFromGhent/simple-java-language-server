@@ -2,13 +2,13 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2025-06-05T22:06:33.629795474Z</date>
-  <millis>1749161193629</millis>
-  <nanos>795474</nanos>
+  <date>2025-06-06T21:34:04.997833831Z</date>
+  <millis>1749245644997</millis>
+  <nanos>833831</nanos>
   <sequence>0</sequence>
   <logger>main</logger>
   <level>INFO</level>
-  <class>com.yenthefromghent.sjls.debug.LogOptions</class>
+  <class>com.yenthefromghent.sjls.extra.LogOptions</class>
   <method>setLogOptions</method>
   <thread>3</thread>
   <message>Logger intialized</message>

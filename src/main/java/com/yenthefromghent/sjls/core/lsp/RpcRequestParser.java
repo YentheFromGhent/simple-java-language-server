@@ -1,12 +1,14 @@
 package com.yenthefromghent.sjls.core.lsp;
 
-import com.yenthefromghent.sjls.core.codec.MessageCodec;
-import com.yenthefromghent.sjls.core.codec.RPCMessageCodec;
+import com.yenthefromghent.sjls.core.util.MessageCodec;
+import com.yenthefromghent.sjls.core.util.RPCMessageCodec;
 import com.yenthefromghent.sjls.core.io.RpcRequestReader;
 import com.yenthefromghent.sjls.core.io.StdInRpcRequestReader;
-import com.yenthefromghent.sjls.debug.exception.BlockedQueueOfferTimeOut;
+import com.yenthefromghent.sjls.extra.Error;
+import com.yenthefromghent.sjls.extra.exception.BlockedQueueOfferTimeOut;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
 /** class that will take incoming messages from the StdinRpcRequestReader
@@ -36,6 +38,16 @@ public class RpcRequestParser implements Runnable {
         } catch (IOException e ) {
             throw new RuntimeException(e.getMessage(), e);
         }
+
+        //Add poison spill to the queue so that the server will shutdown.
+        //This will also happen on the shutdown request.
+        String poisonPillJson = """
+                {
+                  "jsonrpc": "2.0",
+                  "method": "exit",
+                  "params": {}
+                }""";
+        this.add(poisonPillJson.getBytes(StandardCharsets.UTF_8), 0);
     }
 
     private void add(byte[] messageBytes, int attempts) {
@@ -48,12 +60,17 @@ public class RpcRequestParser implements Runnable {
                         "Could not add message to queue after " + attempts
                                 + " attempts with error: " + e.getMessage()
                 );
-                //TODO Notify main thread, and let it choose to restart this process, or shutdown.
-                throw new RuntimeException(e.getMessage(), e);
+                throw new RuntimeException("attempts exceeded");
             }
             //could not add request to queue, tyring it again.
             LOGGER.warning("Could not add request to queue, will try again..");
             this.add(messageBytes, attempts + 1);
+        } catch (RuntimeException e) {
+            // We should not crash on a invalid rpc request, or when we exceed the attempts,
+            // We should tell the client that we failed to parse this request and just move on.
+            LOGGER.warning("invalid rpc request: " + e.getMessage());
+            RpcResponseManager.sendErrorResponse(Error.PARSE_ERROR.error(), "could not parse request");
         }
     }
+
 }

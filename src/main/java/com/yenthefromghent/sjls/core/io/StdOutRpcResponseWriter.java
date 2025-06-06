@@ -10,7 +10,7 @@ public class StdOutRpcResponseWriter implements RpcResponseWriter {
     private final BufferedOutputStream out;
     private static final Logger LOGGER = Logger.getLogger("main");
 
-    StdOutRpcResponseWriter() {
+    public StdOutRpcResponseWriter() {
         this(System.out);
     }
 

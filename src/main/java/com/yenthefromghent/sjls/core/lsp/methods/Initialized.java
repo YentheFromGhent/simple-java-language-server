@@ -1,10 +1,15 @@
 package com.yenthefromghent.sjls.core.lsp.methods;
 
+import com.google.gson.JsonObject;
+import java.util.logging.Logger;
+
 public class Initialized implements RpcMethod {
 
-    @Override
-    public void invoke() {
+    private final Logger LOGGER = Logger.getLogger("main");
 
+    @Override
+    public void invoke(JsonObject request) {
+        LOGGER.info("Initialized");
     }
 
 }

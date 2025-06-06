@@ -2,8 +2,8 @@ package com.yenthefromghent.sjls.core.lsp.methods;
 
 public interface Request {
 
-    void succes();
+    void succes(int id);
 
-    void fail();
+    void fail(int id);
 
 }

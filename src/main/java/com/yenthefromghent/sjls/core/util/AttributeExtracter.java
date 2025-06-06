@@ -1,4 +1,4 @@
-package com.yenthefromghent.sjls.core.codec;
+package com.yenthefromghent.sjls.core.util;
 
 import com.google.gson.JsonObject;
 

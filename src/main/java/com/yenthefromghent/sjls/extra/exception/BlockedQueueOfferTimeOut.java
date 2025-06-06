@@ -1,4 +1,4 @@
-package com.yenthefromghent.sjls.debug.exception;
+package com.yenthefromghent.sjls.extra.exception;
 
 public class BlockedQueueOfferTimeOut extends RuntimeException {
 
