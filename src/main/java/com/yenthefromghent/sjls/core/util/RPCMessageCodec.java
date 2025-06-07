@@ -1,8 +1,10 @@
 package com.yenthefromghent.sjls.core.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.yenthefromghent.sjls.core.lsp.json_types.ResponseMessage;
 
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
@@ -18,11 +20,13 @@ public class RPCMessageCodec implements MessageCodec {
         String jsonString = new String(json, StandardCharsets.UTF_8);
 
         try {
+            LOGGER.finest("decoding new messasge");
             return JsonParser.parseString(jsonString).getAsJsonObject();
         } catch (Exception e) {
             LOGGER.severe("Error while parsing json: " + jsonString);
         }
-        return null;
+        LOGGER.finest("could not decode, returning empty object");
+        return new JsonObject();
     }
 
     @Override

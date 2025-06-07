@@ -24,7 +24,7 @@ tasks.test {
 tasks.jar {
     manifest {
         attributes(
-            "Main-Class" to "com.yenthefromghent.sjls.Launch",
+            "Main-Class" to "com.yenthefromghent.sjls.Main",
         )
     }
 }
@@ -33,6 +33,6 @@ tasks.shadowJar {
     archiveBaseName.set("js_ls")
     archiveVersion.set("1.0.0")
     manifest {
-        attributes(mapOf("Main-Class" to "com.yenthefromghent.sjls.Launch"))
+        attributes(mapOf("Main-Class" to "com.yenthefromghent.sjls.Main"))
     }
 }

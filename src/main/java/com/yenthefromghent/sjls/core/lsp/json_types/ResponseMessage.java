@@ -1,5 +1,6 @@
 package com.yenthefromghent.sjls.core.lsp.json_types;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class ResponseMessage extends Message {
@@ -9,11 +10,6 @@ public class ResponseMessage extends Message {
     public JsonObject result;
     public ResponseError error;
 
-    public ResponseMessage(Integer id, JsonObject result) {
-        this.id = id;
-        this.result = result;
-    }
-
     public ResponseMessage(Integer id, ResponseError error) {
         this.id = id;
         this.error = error;
@@ -21,6 +17,11 @@ public class ResponseMessage extends Message {
 
     public ResponseMessage(ResponseError error) {
         this.error = error;
+    }
+
+    public ResponseMessage(Integer id, JsonObject response) {
+        this.id = id;
+        this.result = response;
     }
 
 }

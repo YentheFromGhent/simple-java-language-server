@@ -13,6 +13,10 @@ public class RpcRequestStorer {
 
     private final BlockingQueue<RpcRequest> rpcRequests = new LinkedBlockingQueue<>();
 
+    public RpcRequestStorer() {
+        LOGGER.finest("initializng RpcRequestStorer");
+    }
+
     public void add(RpcRequest rpcRequest) throws BlockedQueueOfferTimeOut {
         try {
             boolean succes =  rpcRequests.offer(rpcRequest, 200, TimeUnit.MILLISECONDS);
@@ -20,12 +24,14 @@ public class RpcRequestStorer {
                 LOGGER.warning("RPC request timed out");
                 throw new BlockedQueueOfferTimeOut("blocked queue offering timeout exception");
             }
+            LOGGER.finest("message stored");
         } catch (InterruptedException e) {
             throw new BlockedQueueOfferTimeOut("blocked queue offering timeout exception");
         }
     }
 
     public RpcRequest get() throws InterruptedException {
+        LOGGER.finest("attempting to take message");
         return rpcRequests.take();
     }
 

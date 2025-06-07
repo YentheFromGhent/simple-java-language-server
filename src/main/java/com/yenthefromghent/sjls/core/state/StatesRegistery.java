@@ -3,6 +3,7 @@ package com.yenthefromghent.sjls.core.state;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Logger;
 
 /**
  * Class that enables listening to a certain state,
@@ -10,9 +11,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class StatesRegistery {
 
-    public final Set<State> states = ConcurrentHashMap.newKeySet();
-    public final Set<Class<? extends State>> stateClasses = ConcurrentHashMap.newKeySet();
-    public final Map<Class<? extends State>, List<Runnable>> listeners = new ConcurrentHashMap<>();
+    private static final Logger LOGGER = Logger.getLogger("main");
+
+    private final Set<State> states = ConcurrentHashMap.newKeySet();
+    private final Set<Class<? extends State>> stateClasses = ConcurrentHashMap.newKeySet();
+    private final Map<Class<? extends State>, List<Runnable>> listeners = new ConcurrentHashMap<>();
+
+
+    public StatesRegistery() {
+        LOGGER.finest("initializing StatesRegistery");
+    }
 
     public void add(State state) {
         Class<? extends State> stateClass = state.getClass();

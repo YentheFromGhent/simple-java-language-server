@@ -10,11 +10,9 @@ import java.util.logging.Logger;
 /** simple class that parses the command line options **/
 public class CommandlineOptionsParser {
 
-    private static final Logger LOGGER = Logger.getLogger("main");
-
     public static CommandLineParams parseCommandLineOptions(String[] args) {
-        Level level = Level.FINEST;
-        String filepath = "log.xml";
+        Level level = Level.ALL;
+        String filepath = "/home/yenthe/Runnable/log.xml";
 
         Map<String, Level> levels = new HashMap<>();
 

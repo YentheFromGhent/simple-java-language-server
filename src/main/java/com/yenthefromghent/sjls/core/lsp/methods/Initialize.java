@@ -16,12 +16,12 @@ public class Initialize implements RpcMethod, Request {
 
     @Override
     public void succes(int id) {
-       RpcResponseManager.sendResponse(new InitializeResult(new Capabilities(), new ServerInfo()), 0);
+       RpcResponseManager.sendResponse(new InitializeResult(new Capabilities(), new ServerInfo()), id);
     }
 
     @Override
     public void fail(int id ) {
-
+        //TODO reply with error
     }
 
 }

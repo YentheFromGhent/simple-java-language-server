@@ -9,7 +9,10 @@ public class RpcAttributeExtracter implements AttributeExtracter {
     }
 
     public String extractAttributeAsString(JsonObject jsonObject, String attribute) {
-        return jsonObject.get(attribute).getAsString();
+        if (jsonObject.has(attribute)) {
+            return jsonObject.get(attribute).getAsString();
+        }
+        return null;
     }
 
 }

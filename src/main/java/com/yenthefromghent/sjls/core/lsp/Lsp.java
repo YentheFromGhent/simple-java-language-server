@@ -1,39 +1,53 @@
 package com.yenthefromghent.sjls.core.lsp;
 
-import com.yenthefromghent.sjls.core.server.ServerShutdown;
+import com.yenthefromghent.sjls.core.server.Server;
+import com.yenthefromghent.sjls.core.state.ShutdownState;
 import com.yenthefromghent.sjls.core.state.StatesRegistery;
+
+import java.util.logging.Logger;
 
 public class Lsp implements Runnable {
 
+    private static final Logger LOGGER = Logger.getLogger("main");
+
     private final RpcMethodHandler manager;
-    private final ServerShutdown serverShutdown;
+    private final Server server;
+    private final Thread worker;
 
-    public Lsp() {
-        StatesRegistery statesRegistery = new StatesRegistery();
+    public Lsp(StatesRegistery statesRegistery, Server server) {
+        LOGGER.finest("initializing LSP");
 
-        this.manager = new RpcMethodHandler(statesRegistery);
-        this.serverShutdown = new ServerShutdown(statesRegistery);
+        RpcRequestStorer requestStorer = new RpcRequestStorer();
 
-        RpcRequestParser rpcRequestParser = new RpcRequestParser();
-        new Thread(rpcRequestParser).start();
+        this.manager = new RpcMethodHandler(statesRegistery, requestStorer);
+        this.server = server;
+
+        //Register to this state, which will notify our loop(), to stop running;
+        statesRegistery.onState(ShutdownState.class, this);
+
+        RpcRequestParser rpcRequestParser = new RpcRequestParser(requestStorer);
+        worker = new Thread(rpcRequestParser);
+        worker.start();
     }
 
-    private static boolean done = false;
+    private boolean done = false;
 
     /* main loop, we take a request from the from the registery, and handle it, until we get the exit notification */
-    @Override
-    public void run() {
+    public void loop() {
         while (!done) {
+            LOGGER.finest("next request");
             manager.handleNextRequest();
         }
 
         //We shutdown the server
-        serverShutdown.shutdown();
+        worker.interrupt();
+        // server.shutdown();
     }
 
-    //I hate how i do this. should fix
-    public static void setDone(boolean done) {
-        Lsp.done = done;
+    @Override
+    public void run() {
+        LOGGER.finest("set done to true");
+        done = true;
     }
 
 }

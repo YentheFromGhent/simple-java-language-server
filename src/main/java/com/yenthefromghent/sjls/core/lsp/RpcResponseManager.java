@@ -10,6 +10,9 @@ import com.yenthefromghent.sjls.core.util.MessageCodec;
 import com.yenthefromghent.sjls.core.util.RPCMessageCodec;
 import com.yenthefromghent.sjls.extra.Error;
 
+import java.nio.charset.StandardCharsets;
+import java.util.logging.Logger;
+
 /* utility class we can use to send a response to the client */
 public class RpcResponseManager {
 
@@ -24,6 +27,14 @@ public class RpcResponseManager {
         ResponseMessage responseMessage = createRepsonseMessage(response, id);
         byte[] responseBytes = codec.encode(responseMessage);
         outWriter.writeMessage(responseBytes);
+    }
+
+    public static void sendResponse(int id) {
+        String jsonResponse = String.format("{\"id\":%d,\"jsonrpc\":\"2.0\",\"result\":null}", id);
+        Logger.getLogger("main").info(jsonResponse);
+        int contentLength = jsonResponse.getBytes(StandardCharsets.UTF_8).length;
+        String response = "Content-Length: " + contentLength + "\r\n\r\n" + jsonResponse;
+        outWriter.writeMessage(response.getBytes(StandardCharsets.UTF_8));
     }
 
     public static <T> void sendErrorResponse(int id, int errorCode, String errorMessage, T errorData) {

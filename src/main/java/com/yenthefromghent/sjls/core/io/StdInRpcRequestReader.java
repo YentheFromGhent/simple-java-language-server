@@ -13,6 +13,10 @@ public class StdInRpcRequestReader implements RpcRequestReader {
 
     private static final Logger LOGGER = Logger.getLogger("main");
 
+    public StdInRpcRequestReader() {
+        LOGGER.finest("initializing StdInRpcRequestReader");
+    }
+
     private final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     private final byte[] buffer = new byte[4096];
 

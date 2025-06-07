@@ -22,9 +22,11 @@ public class RpcRequestParser implements Runnable {
     private final RpcRequestStorer rpcRequestStorer;
     private final MessageCodec messageCodec;
 
-    public RpcRequestParser() {
+    public RpcRequestParser(RpcRequestStorer rpcRequestStorer) {
+        LOGGER.finest("initialzing RpcRequestParser");
+
         this.rpcRequestReader = new StdInRpcRequestReader();
-        this.rpcRequestStorer = new RpcRequestStorer();
+        this.rpcRequestStorer = rpcRequestStorer;
         this.messageCodec = new RPCMessageCodec();
     }
 
@@ -33,21 +35,12 @@ public class RpcRequestParser implements Runnable {
         byte[] messageBytes;
         try {
             while ((messageBytes = rpcRequestReader.nextMessage()) != null) {
+                LOGGER.finest("Next message received");
                 this.add(messageBytes, 0);
             }
         } catch (IOException e ) {
             throw new RuntimeException(e.getMessage(), e);
         }
-
-        //Add poison spill to the queue so that the server will shutdown.
-        //This will also happen on the shutdown request.
-        String poisonPillJson = """
-                {
-                  "jsonrpc": "2.0",
-                  "method": "exit",
-                  "params": {}
-                }""";
-        this.add(poisonPillJson.getBytes(StandardCharsets.UTF_8), 0);
     }
 
     private void add(byte[] messageBytes, int attempts) {
