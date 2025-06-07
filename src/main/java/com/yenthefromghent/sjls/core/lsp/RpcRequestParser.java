@@ -41,6 +41,13 @@ public class RpcRequestParser implements Runnable {
         } catch (IOException e ) {
             throw new RuntimeException(e.getMessage(), e);
         }
+
+        LOGGER.info("quit rpc request parser");
+        // Adding poison pill to shut down server
+        // Normally we would wait for the notification from the client, but for some
+        // Unknow reason this never comes, i do not now why, i wish i knew..
+        String jsonBody = "{\"jsonrpc\":\"2.0\",\"method\":\"exit\",\"id\":10000}";
+        this.add(jsonBody.getBytes(), 0);
     }
 
     private void add(byte[] messageBytes, int attempts) {

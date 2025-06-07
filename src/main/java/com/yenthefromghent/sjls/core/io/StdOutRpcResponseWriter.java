@@ -22,11 +22,10 @@ public class StdOutRpcResponseWriter implements RpcResponseWriter {
     }
 
     @Override
-    public void writeMessage(byte[] response) {
+    public synchronized void writeMessage(byte[] response) {
         LOGGER.finest("Writing ressponse to stdout: " + new String(response));
 
         try {
-            LOGGER.finest(new String(response));
             out.write(response);
             out.flush();
             System.out.flush();

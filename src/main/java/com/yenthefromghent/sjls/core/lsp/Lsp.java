@@ -12,7 +12,6 @@ public class Lsp implements Runnable {
 
     private final RpcMethodHandler manager;
     private final Server server;
-    private final Thread worker;
 
     public Lsp(StatesRegistery statesRegistery, Server server) {
         LOGGER.finest("initializing LSP");
@@ -22,12 +21,10 @@ public class Lsp implements Runnable {
         this.manager = new RpcMethodHandler(statesRegistery, requestStorer);
         this.server = server;
 
-        //Register to this state, which will notify our loop(), to stop running;
         statesRegistery.onState(ShutdownState.class, this);
 
         RpcRequestParser rpcRequestParser = new RpcRequestParser(requestStorer);
-        worker = new Thread(rpcRequestParser);
-        worker.start();
+        new Thread(rpcRequestParser).start();
     }
 
     private boolean done = false;
@@ -39,15 +36,12 @@ public class Lsp implements Runnable {
             manager.handleNextRequest();
         }
 
-        //We shutdown the server
-        worker.interrupt();
-        // server.shutdown();
+        server.shutdown();
     }
 
-    @Override
     public void run() {
-        LOGGER.finest("set done to true");
-        done = true;
+       this.done = true;
+       LOGGER.finest("shutting down LSP");
     }
 
 }
