@@ -1,5 +1,7 @@
 package com.yenthefromghent.sjls.core.lsp;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.yenthefromghent.sjls.core.io.RpcResponseWriter;
 import com.yenthefromghent.sjls.core.io.StdOutRpcResponseWriter;
@@ -31,6 +33,7 @@ public class RpcResponseManager {
 
     public static void sendResponse(int id) {
         ResponseMessage responseMessage = new ResponseMessage(id);
+        responseMessage.result = new JsonObject();
         byte[] responseBytes = codec.encode(responseMessage);
         outWriter.writeMessage(responseBytes);
     }

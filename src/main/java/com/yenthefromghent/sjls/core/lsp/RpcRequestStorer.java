@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 public class RpcRequestStorer {
 
     private final Logger LOGGER = Logger.getLogger("main");
+    private final Logger READER_LOGGER = Logger.getLogger("reader");
 
     private final BlockingQueue<RpcRequest> rpcRequests = new LinkedBlockingQueue<>();
 
@@ -21,10 +22,10 @@ public class RpcRequestStorer {
         try {
             boolean succes =  rpcRequests.offer(rpcRequest, 200, TimeUnit.MILLISECONDS);
             if (!succes) {
-                LOGGER.warning("RPC request timed out");
+                READER_LOGGER.warning("RPC request timed out");
                 throw new BlockedQueueOfferTimeOut("blocked queue offering timeout exception");
             }
-            LOGGER.finest("message stored");
+            READER_LOGGER.finest("message stored");
         } catch (InterruptedException e) {
             throw new BlockedQueueOfferTimeOut("blocked queue offering timeout exception");
         }

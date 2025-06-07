@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  */
 public class StdInRpcRequestReader implements RpcRequestReader {
 
-    private static final Logger LOGGER = Logger.getLogger("main");
+    private static final Logger LOGGER = Logger.getLogger("reader");
 
     public StdInRpcRequestReader() {
         LOGGER.finest("initializing StdInRpcRequestReader");

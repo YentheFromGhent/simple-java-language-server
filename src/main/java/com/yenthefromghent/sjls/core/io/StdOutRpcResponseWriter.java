@@ -22,18 +22,28 @@ public class StdOutRpcResponseWriter implements RpcResponseWriter {
     }
 
     @Override
-    public synchronized void writeMessage(byte[] response) {
+    public void writeMessage(byte[] response) {
         LOGGER.finest("Writing ressponse to stdout: " + new String(response));
+
+        LOGGER.finest("Outgoing lsp message (hex):\n " + bytesToHex(response));
 
         try {
             out.write(response);
             out.flush();
-            System.out.flush();
         } catch (IOException e) {
             LOGGER.warning("Failed to write response to stdout with error: " + e.getMessage());
         }
 
         LOGGER.finest("Message written");
+    }
+
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder hex = new StringBuilder();
+        for (byte b : bytes) {
+            hex.append(String.format("%02x ", b));
+        }
+        return hex.toString().trim();
     }
 
 }

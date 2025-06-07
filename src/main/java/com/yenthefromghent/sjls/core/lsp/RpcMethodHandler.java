@@ -44,7 +44,6 @@ public class RpcMethodHandler {
             return;
         }
 
-        LOGGER.finest("handling next request");
         LOGGER.finest("request type was: " + messageTypeIdentifier(request));
         switch (messageTypeIdentifier(request)) {
             case NOTIFICATION, REQUEST -> rpcMethodInvoker.invokeMethod(request);

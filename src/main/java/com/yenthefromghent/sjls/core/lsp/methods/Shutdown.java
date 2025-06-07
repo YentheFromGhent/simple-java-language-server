@@ -7,7 +7,7 @@ import com.yenthefromghent.sjls.core.state.StatesRegistery;
 
 import java.util.logging.Logger;
 
-public class Shutdown implements RpcMethod, Request {
+public class Shutdown implements RpcMethod {
 
     private final StatesRegistery statesRegistery;
 
@@ -15,24 +15,12 @@ public class Shutdown implements RpcMethod, Request {
         this.statesRegistery = statesRegistery;
     }
 
+    // This is a special case which i have explained in the RpcAsyncRequestParser, but i give a quick recap.
+    // We have already send this reply, because it is extremely time sensitive, so here we just add the State, which is
+    // Usefull for the server itself, this has nothing to do with the client.
     @Override
     public void invoke(JsonObject request) {
-        // We add this state, so on exit we now that we received this request first
-        // if we did not receive this request first, we exit with code 1, implying that
-        // something went wrong
         statesRegistery.add(new ShutDownReceivedState());
-        int id = request.get("id").getAsInt();
-        succes(id);
-    }
-
-    @Override
-    public void succes(int id) {
-        RpcResponseManager.sendResponse(id);
-    }
-
-    @Override
-    public void fail(int id) {
-        //TODO reply with error
     }
 
 }

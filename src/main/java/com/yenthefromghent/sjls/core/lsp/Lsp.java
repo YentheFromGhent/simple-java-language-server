@@ -1,5 +1,6 @@
 package com.yenthefromghent.sjls.core.lsp;
 
+import com.yenthefromghent.sjls.core.lsp.async.RpcAsyncRequestParser;
 import com.yenthefromghent.sjls.core.server.Server;
 import com.yenthefromghent.sjls.core.state.ShutdownState;
 import com.yenthefromghent.sjls.core.state.StatesRegistery;
@@ -23,8 +24,8 @@ public class Lsp implements Runnable {
 
         statesRegistery.onState(ShutdownState.class, this);
 
-        RpcRequestParser rpcRequestParser = new RpcRequestParser(requestStorer);
-        new Thread(rpcRequestParser).start();
+        RpcAsyncRequestParser rpcAsyncRequestParser = new RpcAsyncRequestParser(requestStorer);
+        new Thread(rpcAsyncRequestParser).start();
     }
 
     private boolean done = false;

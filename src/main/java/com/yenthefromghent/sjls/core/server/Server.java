@@ -28,7 +28,7 @@ public class Server {
     //We shutdown with exit code 1, if we did not reiceve the shutdown request before.
     public void shutdown() {
         if (statesRegistery.contains(new ShutDownReceivedState())) {
-            LOGGER.info("Server is shutting down");
+            LOGGER.info("shutting down");
             System.exit(0);
         }
         LOGGER.warning("Shutting down with exit code 1");
