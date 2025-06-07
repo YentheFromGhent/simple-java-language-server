@@ -30,11 +30,9 @@ public class RpcResponseManager {
     }
 
     public static void sendResponse(int id) {
-        String jsonResponse = String.format("{\"id\":%d,\"jsonrpc\":\"2.0\",\"result\":null}", id);
-        Logger.getLogger("main").info(jsonResponse);
-        int contentLength = jsonResponse.getBytes(StandardCharsets.UTF_8).length;
-        String response = "Content-Length: " + contentLength + "\r\n\r\n" + jsonResponse;
-        outWriter.writeMessage(response.getBytes(StandardCharsets.UTF_8));
+        ResponseMessage responseMessage = new ResponseMessage(id);
+        byte[] responseBytes = codec.encode(responseMessage);
+        outWriter.writeMessage(responseBytes);
     }
 
     public static <T> void sendErrorResponse(int id, int errorCode, String errorMessage, T errorData) {

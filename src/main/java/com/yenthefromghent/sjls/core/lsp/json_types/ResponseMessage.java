@@ -24,4 +24,8 @@ public class ResponseMessage extends Message {
         this.result = response;
     }
 
+    public ResponseMessage(Integer id) {
+        this.id = id;
+    }
+
 }
