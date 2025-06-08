@@ -14,7 +14,7 @@ public class RpcMessageCodecTest {
 
     @Test
     public void testDecode_validRpcRequest() {
-        // Given: a valid JSON-RPC request formatted as bytes
+        // Given: a valid JSON-RPC content formatted as bytes
         String jsonBody = "{\"jsonrpc\":\"2.0\",\"method\":\"subtract\",\"params\":[42, 23],\"id\":1}";
         String fullMessage = String.format("Content-Length: %d\r\n\r\n%s", jsonBody.getBytes().length, jsonBody);
         byte[] inputBytes = fullMessage.getBytes(java.nio.charset.StandardCharsets.UTF_8);

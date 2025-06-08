@@ -1,31 +1,32 @@
 package com.yenthefromghent.sjls.core.server;
 
-import com.yenthefromghent.sjls.core.cli.CommandLineParams;
-import com.yenthefromghent.sjls.core.cli.CommandlineOptionsParser;
-import com.yenthefromghent.sjls.core.lsp.Lsp;
+import com.yenthefromghent.sjls.extra.cli.CommandLineParams;
+import com.yenthefromghent.sjls.extra.cli.CommandlineOptionsParser;
+import com.yenthefromghent.sjls.core.server.lsp.RpcServerController;
 import com.yenthefromghent.sjls.core.state.ShutDownReceivedState;
 import com.yenthefromghent.sjls.core.state.StatesRegistery;
-import com.yenthefromghent.sjls.extra.LogOptions;
+import com.yenthefromghent.sjls.extra.logging.LogOptions;
 
 import java.util.logging.Logger;
 
+/** Main class that launches everything **/
 public class Server {
 
     private static final Logger LOGGER = Logger.getLogger("main");
 
     private final StatesRegistery statesRegistery;
-    private final Lsp lsp;
+    private final RpcServerController lsp;
 
     public Server(String[] args) {
-        this.startOptions(args);
+        this.setStartOptions(args);
 
         this.statesRegistery = new StatesRegistery();
-        this.lsp = new Lsp(statesRegistery, this);
+        this.lsp = new RpcServerController(statesRegistery, this);
 
         this.start();
     }
 
-    //We shutdown with exit code 1, if we did not reiceve the shutdown request before.
+    //We shutdown with exit code 1, if we did not reiceve the shutdown content before.
     public void shutdown() {
         if (statesRegistery.contains(new ShutDownReceivedState())) {
             LOGGER.info("shutting down");
@@ -35,8 +36,7 @@ public class Server {
         System.exit(1);
     }
 
-
-    public void startOptions(String[] args) {
+    public void setStartOptions(String[] args) {
         CommandLineParams params = CommandlineOptionsParser.parseCommandLineOptions(args);
         LogOptions.setLogOptions(params);
         LOGGER.info("start options set");

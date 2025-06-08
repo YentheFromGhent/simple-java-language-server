@@ -1,14 +1,13 @@
 package com.yenthefromghent.sjls.core.util;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.yenthefromghent.sjls.core.lsp.json_types.ResponseMessage;
 
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
+/** Turn's byte[] into JsonObject and the other way around **/
 public class RPCMessageCodec implements MessageCodec {
 
     private static final Logger LOGGER = Logger.getLogger("main");
@@ -36,4 +35,5 @@ public class RPCMessageCodec implements MessageCodec {
                 "Content-Length: %d\r\n\r\n%s", jsonString.getBytes().length, jsonString)
                 .getBytes(StandardCharsets.UTF_8);
     }
+
 }

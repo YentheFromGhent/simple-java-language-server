@@ -5,10 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 
-/**
- * Class that enables listening to a certain state,
- * or checking if a state is active
- */
+/** Class that enables listening to a certain state, or checking if a state is active */
 public class StatesRegistery {
 
     private static final Logger LOGGER = Logger.getLogger("main");
